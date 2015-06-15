@@ -1,0 +1,67 @@
+= Introducing Launchbar
+:page-layout: blog
+:page-author: robstryker
+:page-tags: [jbosstools, devstudio, server, launchbar]
+
+In the upcoming Mars release of Eclipse, the C/C++ Development Tooling team (CDT) have introduced a new feature which looks set to change the face of Eclipse as you know it. Called the "Launch Bar", this new set of plugins aims to change how users interact with launch configurations, for the better.  What's more, JBoss Tools has introduced an optional feature which hooks into these new UI elements in order to improve the usability when interacting with server adapters!  So buckle those seatbelts... and prepare to be 'launched' to Mars, and beyond. 
+
+== Launch Bar: What is it?
+
+image::http://tools.jboss.org/documentation/whatsnew/server/images/20150604_launchbar.png[Launch Bar]
+
+link:https://wiki.eclipse.org/CDT/LaunchBar[Launch Bar] is a set of controls that embed itself into your toolbar. It consists of three dropdowns representing launch modes, launchable objects, and launch targets.  The Launch Bar keeps track of recent launches, and displays them in the center dropdown, for easy reuse.  It includes a sashform, separating the most-recently-used elements from the full list of items launched during this session. 
+
+The left dropdown holds the launch modes that we so know and love:  Run, Debug, and Profile.  The right dropdown, for its part, holds compatible "Remote Connections", as defined in the "Remote Connections" preference page. While you probably won't find many launch objects that can be run on remote systems in this way at this time, the future will contain more seamless integration and more options. 
+
+== Launch Bar: Server Tools Integration
+
+With the ability to actually run launch configurations on a remote server having such few uses at this time, we here at JBoss Tools decided to see if it made sense to streamline some of our server-adapter usecases. 
+
+The first step of our enhancement is to create a matching Remote Connection for every WTP Server Tools' Server Adapter created. This opens the connection up as a possible choice in the third drop down: the Launch Target. 
+
+The second step of our enhancement was to keep track of which workspace resources you've previously "Run as -> Run On Server", to allow you to quickly re-launch servlets, html files, or other web resources, without having to navigate the file tree looking for those same resources again. 
+
+Our final enhancement was to try to provide elements that you haven't yet launched on a server, but you have selected somewhere in your workspace, as launchable objects in the center dropdown. So if you've created a WildFly Server Adapter, and a Dynamic Web Project with an index.html in it, simply selecting the index.html in your Project Explorer (or other resource tree) should automatically select index.html in your center dropdown, as well as a valid Server Adapter in the right dropdown. 
+
+== How can I try it?
+
+If you wanted to try this today, you could install JBoss Tools from our Beta1 link:http://download.jboss.org/jbosstools/mars/staging/updates/[Staging Update Site]
+
+As I mentioned above, Launch Bar is an optional enhancement, and while it's available on the update site, it's not part of the "Abridged" category which you may be used to using for installing JBoss Tools. With that in mind, you should either browse around the tree, or simply type "Launchbar" in the filter field of the "Install new Software" workflow. 
+
+Once installed, the launchbar should automatically show up in your toolbar.  Depending on your workspace, you may see the dropdowns as empty, but this isn't anything to worry about. 
+
+
+=== Add a server
+
+Your first step is to add a Wildfly (or other) server adapter to your workspace. You can accomplish this by opening the servers view (Window -> Show View -> Other... -> Servers)  From here, you can choose your server type, and follow the workflow to point to your runtime's home directory. 
+
+First, fill out the general information for how you want your server adapter to behave. In the below screenshot, we're using a simple locally-based server adapter. 
+
+image::images/20150615/server1.png[Adding a Server Adapter]
+
+Then, you may be asked to fill out additional information, such as the location of the local runtime. 
+
+image::images/20150615/server2.png[Filling out Runtime details]
+
+=== Make a Web Project
+
+To make a web project, you'll want to select File -> New -> Dynamic Web Project.  You can give it any name you want, and just make sure the targeted runtime is your newly created runtime.  Once the project is created, you'll probably want to add some html files in the WebContent folder, or a Servlet, or some jsp files.  Whichever you choose, you can go ahead and do that now. 
+
+=== Select your chosen resource
+
+So you've made either an html or jsp file, or some type of Servlet. When you select it, you should see that the launchbar automatically fills in the second combo with a representation of your selected resource, and also fills in the third combo with your new Server Adapter. The left combo should now be filled with your standard run options (Run, Debug, or Profile). 
+
+At this point, simply clicking the launch button on the left side of the toolbar should function as seamlessly as right-clicking the resource, right-clicking, and selecting Run As -> Run On Server. It should add your web project to the server adapter, start your server, and deploy the module.  After that, it should open up a web browser, to open your selected resource as run on the server. 
+
+== How is this better?
+
+The primary users who will benefit from this enhancement are in two select groups.  New users who find it difficult to locate the Run As -> Run on Server context menu will definitely see this nice large launchbar as an improvement over locating obscure actions.  Veteran users, however, might also benefit if they find browsing file trees to locate the desired resource to run on server to be tedious. They will most likely appreciate the ability to quickly relaunch a previous web resource without having to muck around in the Project Explorer. 
+
+== Conclusion
+
+This feature may not suit everyone, and that's why we've excluded it from our "Abridged" category on our update site, but we definitely encourage users to play with it. This is just another tool our users have access to, to help make their development environment suit their needs. 
+
+
+Rob Stryker
+
